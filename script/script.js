@@ -27,7 +27,7 @@ let start = document.getElementById('start'),
 	 periodAmount = document.querySelector('.period-amount'),
 	 data = document.querySelector('.data'),
 	 inputData = data.querySelectorAll('input'),
-	 reset = document.getElementById('cancel');
+	 resetBtn = document.getElementById('cancel');
 	 
 	
 
@@ -173,6 +173,45 @@ let appData = {
 			}
 		})
 	},
+	reset: function(){
+		let inputs = document.querySelectorAll('input');
+		expensesItems.forEach(function(item, i) {
+			if(i > 0){
+				expensesItems[i].remove();
+			}
+	
+		})
+		incomeItems.forEach(function(item, i) {
+			if(i > 0){
+				incomeItems[i].remove();
+			}
+	
+		})
+		incomePlus.style.display = 'block';
+		expensesPlus.style.display = 'block';
+		
+		appData.budget = 0;
+		appData.budgetDay = 0;
+		appData.budgetMonth =0;
+		appData.expensesMonth = 0;
+		appData.income = {};
+		appData.incomeMonth = 0;
+		appData.expenses = {};
+		appData.addIncome = [];
+		appData.addExpenses = [];
+		appData.deposit = false;
+	
+		periodSelect.value = 1;
+		inputs.forEach(function(item){
+			item.value = '';
+		})
+		inputData.forEach(function(item, i){
+			item.removeAttribute('disabled');
+		})
+		start.style.display = 'block';
+		cancel.style.display = 'none';
+		block();
+	}
 	
 }
 
@@ -249,42 +288,4 @@ start.addEventListener('click', function(){
 expensesPlus.addEventListener('click', appData.addExpensesBlock);
 incomePlus.addEventListener('click', appData.addIncomeBlock);
 
-reset.addEventListener('click', function(){
-	let inputs = document.querySelectorAll('input');
-	expensesItems.forEach(function(item, i) {
-		if(i > 0){
-			expensesItems[i].remove();
-		}
-
-	})
-	incomeItems.forEach(function(item, i) {
-		if(i > 0){
-			incomeItems[i].remove();
-		}
-
-	})
-	incomePlus.style.display = 'block';
-	expensesPlus.style.display = 'block';
-	
-	appData.budget = 0;
-	appData.budgetDay = 0;
-	appData.budgetMonth =0;
-	appData.expensesMonth = 0;
-	appData.income = {};
-	appData.incomeMonth = 0;
-	appData.expenses = {};
-	appData.addIncome = [];
-	appData.addExpenses = [];
-	appData.deposit = false;
-
-	periodSelect.value = 1;
-	inputs.forEach(function(item){
-		item.value = '';
-	})
-	inputData.forEach(function(item, i){
-		item.removeAttribute('disabled');
-	})
-	start.style.display = 'block';
-	cancel.style.display = 'none';
-	block();
-})
+resetBtn.addEventListener('click', appData.reset);
